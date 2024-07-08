@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Message Links</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        a {
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #1ebea5;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        #stats {
+            margin-bottom: 20px;
+        }
+        #undo {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #1ebea5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #undo:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>WhatsApp Message Links</h1>
+    <div id="stats">
+        <span id="total-links">Total Links: 0</span> | <span id="completed-links">Completed Links: 0</span>
+    </div>
+    <div id="links"></div>
+    <button id="undo" disabled>Undo</button>
+
+    <script>
+        const names = [
+    "Aparna Karunadas",
+    "Manisha das",
+    "Majkar Abbas. K",
+    "Rajavarapu Anusha",
+    "Piyush Kumar",
+    "Deborah Damians",
+    "Muhammad Wajid",
+    "ANIL NATLEKAR",
+    "Sourabh Parashar",
+    "Anagha T K",
+    "Malek Aimaan Ikbalhusel",
+    "Rizwan ul haq",
+    "ADAPA VEERA VENKAI",
+    "Sukhman Kaur",
+    "Chandan kumar",
+    "Uttam Kumar Ghadai",
+    "Arun",
+    "Wasim Pathan",
+    "Fabina cp",
+    "MANDAN THAKUR",
+    "Rohit Ram",
+    "sai Kumar choudhury",
+    "Akash Ghildiyal",
+    "Nishant Raj",
+    "Ayushi Shukla",
+    "Avneet",
+    "Syed Shabih Hassan Na",
+    "Vishal Murlidhar Kamde",
+    "Yogesh Bisht",
+    "Aman Kishor Mahto"
+];
+
+
+        const phoneNumbers = [
+    "9847181526",
+    "8700732768",
+    "7092859266",
+    "9912298990",
+    "8050581187",
+    "+2349063900967",
+    "03096772177",
+    "9422579923",
+    "9691580633",
+    "+919562130540",
+    "+917229009957",
+    "+918875571234",
+    "6305223548",
+    "7986398356",
+    "+91 8697835102",
+    "7750033319",
+    "8270274144",
+    "9767881986",
+    "0506495796",
+    "9667671267",
+    "9925241965",
+    "9556655668",
+    "8007442373",
+    "6203865737",
+    "9111768025",
+    "+16473302253",
+    "+923453536097",
+    "8668441552",
+    "9026090776",
+    "9304019434"
+];
+
+
+        let removedLinks = [];
+        let completedCount = 0;
+
+        const generateLinks = () => {
+            const links = [];
+            names.forEach((fullName, index) => {
+                const firstName = fullName.split(" ")[0];
+                let phoneNumber = phoneNumbers[index].replace(/\s+/g, '');
+                if (!phoneNumber.startsWith('+')) {
+                    phoneNumber = `91${phoneNumber}`;
+                }
+                const message = `Hi ${firstName},\nKeval this side.\nI received your application on LinkedIn.\nAre you looking for a work-from-home opportunity?`;
+                const encodedMessage = encodeURIComponent(message);
+                const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
+                links.push(url);
+            });
+            return links;
+        };
+
+        const updateStats = () => {
+            document.getElementById('total-links').textContent = `Total Links: ${links.length}`;
+            document.getElementById('completed-links').textContent = `Completed Links: ${completedCount}`;
+        };
+
+        const createLinkElement = (url) => {
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank';
+            link.textContent = url;
+            link.onclick = () => {
+                setTimeout(() => {
+                    removedLinks.push(link);
+                    link.style.display = 'none';
+                    completedCount++;
+                    updateStats();
+                    document.getElementById('undo').disabled = false;
+                }, 1000); // Delay to allow the link to be opened before it's removed
+            };
+            return link;
+        };
+
+        const displayLinks = (links) => {
+            const linksContainer = document.getElementById('links');
+            links.forEach((link) => {
+                const linkElement = createLinkElement(link);
+                linksContainer.appendChild(linkElement);
+            });
+        };
+
+        const undoLastRemoval = () => {
+            if (removedLinks.length > 0) {
+                const lastRemoved = removedLinks.pop();
+                lastRemoved.style.display = 'block';
+                completedCount--;
+                updateStats();
+                if (removedLinks.length === 0) {
+                    document.getElementById('undo').disabled = true;
+                }
+            }
+        };
+
+        const links = generateLinks();
+        displayLinks(links);
+        updateStats();
+
+        document.getElementById('undo').addEventListener('click', undoLastRemoval);
+    </script>
+</body>
+</html>
