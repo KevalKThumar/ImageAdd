@@ -1,189 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WhatsApp Message Links</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        a {
-            display: block;
-            margin: 10px 0;
-            text-decoration: none;
-            color: #1ebea5;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        #stats {
-            margin-bottom: 20px;
-        }
-        #undo {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #1ebea5;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        #undo:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      a {
+        display: block;
+        margin: 10px 0;
+        text-decoration: none;
+        color: #1ebea5;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      #stats {
+        margin-bottom: 20px;
+      }
+      #undo {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #1ebea5;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      #undo:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>WhatsApp Message Links</h1>
     <div id="stats">
-        <span id="total-links">Total Links: 0</span> | <span id="completed-links">Completed Links: 0</span>
+      <span id="total-links">Total Links: 0</span> |
+      <span id="completed-links">Completed Links: 0</span>
     </div>
     <div id="links"></div>
     <button id="undo" disabled>Undo</button>
 
     <script>
-        const names = [
- "Chandan Sharma",
-    "Rupali P Khade",
-    "Neha Singh baghel",
-    "Apoorva Kudal",
-    "Anjali Singh",
-    "Nikita Paliwal",
-    "Raviteja Murala",
-    "Lizalet Aquino",
-    "Shanedra Singh",
-    "Richa Singh",
-    "Akshay Yadav",
-    "Manini Parashar",
-    "Molatelo Phahlamohlaka",
-    "Mallada Yashaswini",
-    "Dawood Imran S M",
-    "Nainshree kesarwani",
-    "Sailaja katakam",
-    "Divya Kamleshbhai Bhatt",
-    "Para Parekh",
-    "shivanshisharma16@gm",
-    "Dieketseng Gloria Xaba",
-    "Angana Sarkar",
-    "Snehalatha Chinnapared",
-    "Varshitha Purella",
-    "Mavish Saxena",
-    "Tejaswa Gupta",
-    "Roopsandeep Bammidi",
-    "Hitesh Kumar Lohar",
-    "Sakshi pal",
-    "PRASAD BHABANI SAN"
-];
+      const names = [
+        "Chandan Sharma",
+        "Rupali P Khade",
+        "Neha Singh baghel",
+        "Apoorva Kudal",
+        "Anjali Singh",
+        "Nikita Paliwal",
+        "Raviteja Murala",
+        "Lizalet Aquino",
+        "Shanedra Singh",
+        "Richa Singh",
+        "Akshay Yadav",
+        "Manini Parashar",
+        "Molatelo Phahlamohlaka",
+        "Mallada Yashaswini",
+        "Dawood Imran S M",
+        "Nainshree kesarwani",
+        "Sailaja katakam",
+        "Divya Kamleshbhai Bhatt",
+        "Para Parekh",
+        "shivanshisharma16@gm",
+        "Dieketseng Gloria Xaba",
+        "Angana Sarkar",
+        "Snehalatha Chinnapared",
+        "Varshitha Purella",
+        "Mavish Saxena",
+        "Tejaswa Gupta",
+        "Roopsandeep Bammidi",
+        "Hitesh Kumar Lohar",
+        "Sakshi pal",
+        "PRASAD BHABANI SAN",
+        "Varun Kumar ",
+        "Akshata nagrale",
+        "Lalitha Ragimanu ",
+        "gajula chandrika",
+        "Shreya Sahni",
+        "Prachi Gupta ",
+        "Prachi Chhajed ",
+        "Buddhi prakash nagar ",
+        "Ramya Gadappa ",
+        "Mohd Adnan ",
+        "Ebony Gwenda Dsouza ",
+      ];
 
-const phoneNumbers = [
-     "9877023798",
-    "9168740364",
-    "7067498529",
-    "7066587484",
-    "6392525997",
-    "7568871869",
-    "9381846984",
-    "+97466756186",
-    "9354861259",
-    "9354534234",
-    "8800778903",
-    "8486320117",
-    "0637979159",
-    "9493108470",
-    "9941466896",
-    "8318572859",
-    "8186041371",
-    "9924648918",
-    "9769695212",
-    "8126740471",
-    "0677242149",
-    "8334809352",
-    "7396895946",
-    "9603123341",
-    "9267913412",
-    "6388599361",
-    "9515515596",
-    "9001141121",
-    "7000465459",
-    "7750893598"
+      const phoneNumbers = [
+        "9877023798",
+        "9168740364",
+        "7067498529",
+        "7066587484",
+        "6392525997",
+        "7568871869",
+        "9381846984",
+        "+97466756186",
+        "9354861259",
+        "9354534234",
+        "8800778903",
+        "8486320117",
+        "0637979159",
+        "9493108470",
+        "9941466896",
+        "8318572859",
+        "8186041371",
+        "9924648918",
+        "9769695212",
+        "8126740471",
+        "0677242149",
+        "8334809352",
+        "7396895946",
+        "9603123341",
+        "9267913412",
+        "6388599361",
+        "9515515596",
+        "9001141121",
+        "7000465459",
+        "7750893598",
+        "7979031568",
+        "9730924620",
+        "7396479016",
+        "7075695294",
+        "9012043352",
+        "8376850578",
+        "8999254715",
+        "9660374352",
+        "8919801869",
+        "8790370018",
+        "8830302609"
+      ];
 
-];
+      console.log(phoneNumbers.length);
+      console.log(names.length);
 
+      let removedLinks = [];
+      let completedCount = 0;
 
+      const generateLinks = () => {
+        const links = [];
+        names.forEach((fullName, index) => {
+          const firstName = fullName.split(" ")[0];
+          let phoneNumber = phoneNumbers[index].replace(/\s+/g, "");
+          if (!phoneNumber.startsWith("+")) {
+            phoneNumber = `91${phoneNumber}`;
+          }
+          const message = `Hi ${firstName},\nKeval this side.\nI received your application on LinkedIn.\nAre you looking for a work-from-home opportunity?`;
+          const encodedMessage = encodeURIComponent(message);
+          const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
+          links.push(url);
+        });
+        return links;
+      };
 
-console.log(phoneNumbers.length)
-console.log(names.length)
+      const updateStats = () => {
+        document.getElementById(
+          "total-links"
+        ).textContent = `Total Links: ${links.length}`;
+        document.getElementById(
+          "completed-links"
+        ).textContent = `Completed Links: ${completedCount}`;
+      };
 
-
-        let removedLinks = [];
-        let completedCount = 0;
-
-        const generateLinks = () => {
-            const links = [];
-            names.forEach((fullName, index) => {
-                const firstName = fullName.split(" ")[0];
-                let phoneNumber = phoneNumbers[index].replace(/\s+/g, '');
-                if (!phoneNumber.startsWith('+')) {
-                    phoneNumber = `91${phoneNumber}`;
-                }
-                const message = `Hi ${firstName},\nKeval this side.\nI received your application on LinkedIn.\nAre you looking for a work-from-home opportunity?`;
-                const encodedMessage = encodeURIComponent(message);
-                const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
-                links.push(url);
-            });
-            return links;
+      const createLinkElement = (url) => {
+        const link = document.createElement("a");
+        link.href = url;
+        link.target = "_blank";
+        link.textContent = url;
+        link.onclick = () => {
+          setTimeout(() => {
+            removedLinks.push(link);
+            link.style.display = "none";
+            completedCount++;
+            updateStats();
+            document.getElementById("undo").disabled = false;
+          }, 1000); // Delay to allow the link to be opened before it's removed
         };
+        return link;
+      };
 
-        const updateStats = () => {
-            document.getElementById('total-links').textContent = `Total Links: ${links.length}`;
-            document.getElementById('completed-links').textContent = `Completed Links: ${completedCount}`;
-        };
+      const displayLinks = (links) => {
+        const linksContainer = document.getElementById("links");
+        links.forEach((link) => {
+          const linkElement = createLinkElement(link);
+          linksContainer.appendChild(linkElement);
+        });
+      };
 
-        const createLinkElement = (url) => {
-            const link = document.createElement('a');
-            link.href = url;
-            link.target = '_blank';
-            link.textContent = url;
-            link.onclick = () => {
-                setTimeout(() => {
-                    removedLinks.push(link);
-                    link.style.display = 'none';
-                    completedCount++;
-                    updateStats();
-                    document.getElementById('undo').disabled = false;
-                }, 1000); // Delay to allow the link to be opened before it's removed
-            };
-            return link;
-        };
+      const undoLastRemoval = () => {
+        if (removedLinks.length > 0) {
+          const lastRemoved = removedLinks.pop();
+          lastRemoved.style.display = "block";
+          completedCount--;
+          updateStats();
+          if (removedLinks.length === 0) {
+            document.getElementById("undo").disabled = true;
+          }
+        }
+      };
 
-        const displayLinks = (links) => {
-            const linksContainer = document.getElementById('links');
-            links.forEach((link) => {
-                const linkElement = createLinkElement(link);
-                linksContainer.appendChild(linkElement);
-            });
-        };
+      const links = generateLinks();
+      displayLinks(links);
+      updateStats();
 
-        const undoLastRemoval = () => {
-            if (removedLinks.length > 0) {
-                const lastRemoved = removedLinks.pop();
-                lastRemoved.style.display = 'block';
-                completedCount--;
-                updateStats();
-                if (removedLinks.length === 0) {
-                    document.getElementById('undo').disabled = true;
-                }
-            }
-        };
-
-        const links = generateLinks();
-        displayLinks(links);
-        updateStats();
-
-        document.getElementById('undo').addEventListener('click', undoLastRemoval);
+      document
+        .getElementById("undo")
+        .addEventListener("click", undoLastRemoval);
     </script>
-</body>
+  </body>
 </html>
